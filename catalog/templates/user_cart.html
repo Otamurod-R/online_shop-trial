@@ -1,0 +1,17 @@
+Корзина
+
+{% for product in cart_products %}
+{{product.user_pr}}<br>
+{{product.user_pr_quantity}}<br>
+<form action="/del_item/{{product.id}}" method="post">
+
+    {% csrf_token %}
+    <button>Удалить</button>
+</form>
+<hr>
+{% endfor %}
+
+<form form="post">
+    {% csrf_token %}
+    <button>Оформит заказ</button>
+</form>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+    <a href="/accounts/logout">Logout</a>
+    <a href="/cart">Корзина</a>
+{% else %}
+    <a href="/accounts/login">Login</a>
+
+{% endif %}
+
+<form method="get"> <!--для отправление запроса на бек-енд-->
+    <input type="text" name="search" placeholder="поиск продуктов">
+    <button>поиск</button>
+
+</form>
+<hr>
+
+<b>Категории</b><br>
+{% for i in all_categories %}
+<a href="/category/{{i.id}}">{{i.name }}</a><br>
+{% endfor %}
+<hr>
+
+<b>Товары:</b> <br>
+{% for i in all_products %}
+<a href="/product/{{ i.name }}/{{ i.id }}">{{ i.name }}</a> <br>
+{% endfor %}
+
+<br><br><br>
+</body>
+</html>
