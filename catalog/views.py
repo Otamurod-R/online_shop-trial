@@ -51,8 +51,8 @@ def user_cart(request):
 
 def delete_from_cart(request, pk):
     product_to_delete=models.Product.objects.get(id=pk)
-    models.Usercart.objects.filter(user_id=request.user.id, user_pr=pk)
-    product_to_delete.delete()
+    models.Usercart.objects.filter(user_id=request.user.id, user_pr=product_to_delete).delete()
+
     return redirect('/cart')
 
     # user_cart=models.Usercart.objects.filter(user_id=request.user.id, user_pr=pk)
@@ -67,10 +67,13 @@ def complete_order(request):
 
     if request.method=='POST':
         result_message = 'Новый Заказ (Из сайта)\n\n'
+        total=0
         for cart in user_cart:
-            result_message+=f'Название товара {cart.user_pr}\n ' \
-                            f'Количество {cart.user_pr_quantity}'
+            result_message+=f'Название товара__: {cart.user_pr}\n '\
+                            f'Количество__: {cart.user_pr_quantity}'
+            total+=cart.user_pr.price*cart.user_pr_quantity
 
+        result_message+=f'\n\nИтог__: {total}'
         handlers.bot.send_message(652535864, result_message)
         user_cart.delete()
 
